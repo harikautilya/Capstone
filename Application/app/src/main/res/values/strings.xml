@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">application</string>
-    <string name="tokens">Available Tokens</string>
+    <string name="app_name">Placity</string>
     <string name="cancel">Cancel</string>
     <string name="book">Book</string>
     <string name="sold">Sold</string>
+    <string name="log_out">Log Out</string>
 </resources>

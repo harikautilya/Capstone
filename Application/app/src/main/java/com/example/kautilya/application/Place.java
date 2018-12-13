@@ -6,7 +6,6 @@ public class Place {
 
     String name;
     long id;
-    long avaiableTokens;
     String location;
     String image_url;
 
@@ -29,13 +28,6 @@ public class Place {
         this.id = id;
     }
 
-    public long getAvaiableTokens() {
-        return avaiableTokens;
-    }
-
-    public void setAvaiableTokens(long avaiableTokens) {
-        this.avaiableTokens = avaiableTokens;
-    }
 
     public String getLocation() {
         return location;
@@ -67,4 +59,6 @@ public class Place {
         return false;
 
     }
+
+
 }

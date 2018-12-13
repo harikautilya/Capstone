@@ -17,8 +17,8 @@ public class FireBaseUtils {
     }
 
 
-    public static Task<Void> setBookingReference(String UUID, long placeId,boolean value) {
-        return getFirebaseDatabase().getReference("udacity").child("User").child(UUID).child(placeId + "").setValue(true);
+    public static Task<Void> setBookingReference(String UUID, long placeId, boolean value) {
+        return getFirebaseDatabase().getReference("udacity").child("User").child(UUID).child(placeId + "").setValue(value);
     }
 
     public static DatabaseReference getBookingReference(String UUID, long placeId) {
