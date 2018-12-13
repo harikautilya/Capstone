@@ -50,7 +50,7 @@ public class Place {
         super.equals(obj);
         if (obj instanceof Place) {
             Place currentObjet = (Place) obj;
-            if (currentObjet.getId() == id && name.equals(currentObjet.getName()) && avaiableTokens == currentObjet.getAvaiableTokens() && location.equals(currentObjet.getLocation()) && image_url.equals(currentObjet.getImage_url())) {
+            if (currentObjet.getId() == id && name.equals(currentObjet.getName()) && location.equals(currentObjet.getLocation()) && image_url.equals(currentObjet.getImage_url())) {
                 return true;
 
             }

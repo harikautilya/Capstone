@@ -107,9 +107,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
                     } else {
                         itemPlaceBinding.book.setText(context.getString(R.string.book));
                     }
-                    if (place.getAvaiableTokens() == 0) {
-                        itemPlaceBinding.book.setText(context.getString(R.string.sold));
-                    }
+
 
                 }
 
@@ -126,10 +124,6 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
                 public void onClick(View v) {
 
 
-                    if (place.getAvaiableTokens() == 0 && !booked) {
-                        Toast.makeText(context, "Tickets Sold", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setCancelable(false);
                     builder.setTitle("Confirm");
