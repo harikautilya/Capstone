@@ -2,4 +2,5 @@
 <resources>
     <dimen name="child_margin">2dp</dimen>
     <dimen name="medium_text">15sp</dimen>
+    <dimen name="parent_margin">5dp</dimen>
 </resources>

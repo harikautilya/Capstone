@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity {
+
+    final String TAG = this.getClass().getName();
     T viewBinding;
 
     @Override
@@ -21,5 +24,9 @@ public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatA
 
     public T getViewBinding() {
         return viewBinding;
+    }
+
+    protected void showToast(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
