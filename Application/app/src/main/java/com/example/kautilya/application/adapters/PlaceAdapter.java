@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.kautilya.application.Utils.FireBaseUtils;
 import com.example.kautilya.application.R;
+import com.example.kautilya.application.Utils.FireBaseUtils;
 import com.example.kautilya.application.databinding.ItemPlaceBinding;
 import com.example.kautilya.application.objects.Place;
 import com.example.kautilya.application.ui.MainActivity;
@@ -98,6 +98,8 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
                         .placeholder(R.drawable.placeholder)
                         .error(R.drawable.error)
                         .into(itemPlaceBinding.image);
+            else
+                itemPlaceBinding.image.setBackground(context.getResources().getDrawable(R.drawable.placeholder));
 
             bookValueEventListener = new ValueEventListener() {
                 @Override

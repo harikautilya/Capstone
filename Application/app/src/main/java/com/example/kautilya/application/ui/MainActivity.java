@@ -3,6 +3,7 @@ package com.example.kautilya.application.ui;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
@@ -40,45 +41,34 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private PlaceAdapter adapter;
     private int SYNC_FLEXTIME_SECONDS = 10;
     private FirebaseJobDispatcher firebaseJobDispatcher;
-    private Parcelable layoutManagerSavedState;
+    private Parcelable mListState;
+    private Bundle mBundleRecyclerViewState;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         placeString = new ArrayList<>();
-        getViewBinding().data.setLayoutManager(new LinearLayoutManager(this) {
-            @Override
-            public void onRestoreInstanceState(Parcelable state) {
-                if (state instanceof Bundle) {
-                    layoutManagerSavedState = ((Bundle) state).getParcelable(SAVED_LAYOUT_MANAGER);
-                }
-                super.onRestoreInstanceState(state);
-            }
-
-            @Override
-            public Parcelable onSaveInstanceState() {
-
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(SAVED_LAYOUT_MANAGER, getViewBinding().data.getLayoutManager().onSaveInstanceState());
-                return bundle;
-
-
-            }
-        });
+        getViewBinding().data.setLayoutManager(new LinearLayoutManager(this));
         getViewBinding().data.setAdapter(adapter = new PlaceAdapter(MainActivity.this, placeString));
         Driver driver = new GooglePlayDriver(this);
         firebaseJobDispatcher = new FirebaseJobDispatcher(driver);
-        restoreLayoutManagerPosition();
         setupFirebaseListeners();
         updateUI();
-    }
 
-    private void restoreLayoutManagerPosition() {
-        if (layoutManagerSavedState != null) {
-            getViewBinding().data.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
+        if (mBundleRecyclerViewState != null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mListState = mBundleRecyclerViewState.getParcelable(SAVED_LAYOUT_MANAGER);
+                    getViewBinding().data.getLayoutManager().onRestoreInstanceState(mListState);
+
+                }
+            }, 50);
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,6 +76,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        mBundleRecyclerViewState = new Bundle();
+        mListState = getViewBinding().data.getLayoutManager().onSaveInstanceState();
+        mBundleRecyclerViewState.putParcelable(SAVED_LAYOUT_MANAGER, mListState);// get current recycle view position here.
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -137,6 +135,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
 
         } else {
             startJobService();

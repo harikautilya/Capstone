@@ -17,4 +17,5 @@
     <string name="register">REGISTER</string>
     <string name="book">Book</string>
     <string name="heading">Heading</string>
+    <string name="place_image">Place Image</string>
 </resources>
