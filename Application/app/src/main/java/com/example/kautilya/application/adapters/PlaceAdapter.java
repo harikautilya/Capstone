@@ -1,4 +1,4 @@
-package com.example.kautilya.application;
+package com.example.kautilya.application.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,7 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.kautilya.application.FireBaseUtils;
+import com.example.kautilya.application.R;
 import com.example.kautilya.application.databinding.ItemPlaceBinding;
+import com.example.kautilya.application.objects.Place;
+import com.example.kautilya.application.ui.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -48,7 +52,7 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.PlaceHolder>
         holder.removeListener();
     }
 
-    void updateData(List<Place> places) {
+    public void updateData(List<Place> places) {
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MainActivity.MyDiffCallback(places, this.places));
         diffResult.dispatchUpdatesTo(this);
         this.places.clear();

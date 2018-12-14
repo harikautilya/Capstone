@@ -1,4 +1,4 @@
-package com.example.kautilya.application;
+package com.example.kautilya.application.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
+import com.example.kautilya.application.base.BaseActivity;
+import com.example.kautilya.application.R;
 import com.example.kautilya.application.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

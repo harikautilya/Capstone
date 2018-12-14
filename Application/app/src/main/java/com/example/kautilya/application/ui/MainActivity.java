@@ -1,4 +1,4 @@
-package com.example.kautilya.application;
+package com.example.kautilya.application.ui;
 
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
@@ -10,6 +10,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.example.kautilya.application.App;
+import com.example.kautilya.application.base.BaseActivity;
+import com.example.kautilya.application.objects.Place;
+import com.example.kautilya.application.adapters.PlaceAdapter;
+import com.example.kautilya.application.service.PlaceService;
+import com.example.kautilya.application.R;
 import com.example.kautilya.application.databinding.ActivityMainBinding;
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.Driver;

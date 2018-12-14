@@ -1,4 +1,4 @@
-package com.example.kautilya.application;
+package com.example.kautilya.application.objects;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

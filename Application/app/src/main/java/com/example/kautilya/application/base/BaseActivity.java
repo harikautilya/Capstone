@@ -1,4 +1,4 @@
-package com.example.kautilya.application;
+package com.example.kautilya.application.base;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public abstract class BaseActivity<T extends ViewDataBinding> extends AppCompatActivity {
 
-    final String TAG = this.getClass().getName();
+    final protected String TAG = this.getClass().getName();
     T viewBinding;
 
     @Override

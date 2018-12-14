@@ -8,7 +8,7 @@
 
         <variable
             name="place"
-            type="com.example.kautilya.application.Place" />
+            type="com.example.kautilya.application.objects.Place" />
     </data>
 
     <android.support.v7.widget.CardView
