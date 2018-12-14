@@ -27,11 +27,19 @@ public class PlaceService extends JobService {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                List<Place> places = new ArrayList<>();
+                final List<Place> places = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Place place = child.getValue(Place.class);
                     places.add(place);
                 }
+
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        App.getmDbInstance().placeDao().insertPlace(places);
+                    }
+                }).start();
 
 
             }
