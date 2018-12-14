@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        releaseKey {
+            keyAlias 'key0'
+            keyPassword 'helloworld'
+            storeFile file('./keystore')
+            storePassword 'helloworld'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.kautilya.application"
@@ -17,6 +25,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.releaseKey
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

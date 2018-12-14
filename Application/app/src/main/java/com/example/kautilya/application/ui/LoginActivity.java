@@ -37,15 +37,15 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         String password = getViewBinding().password.getText().toString();
 
         if (username.equals("")) {
-            showToast("Enter Username");
+            showToast(getString(R.string.enter_username));
             return;
         }
         if (password.equals("")) {
-            showToast("Enter Username");
+            showToast(getString(R.string.enter_password));
             return;
         }
 
-        progressDialog = ProgressDialog.show(this, "Logging in ...", "Please wait while we login", true);
+        progressDialog = ProgressDialog.show(this, getString(R.string.logging_in), getString(R.string.logging_in_message), true);
         firebaseAuth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                             loginSuccess();
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            loginFailure("Authentication failed.");
+                            loginFailure(getString(R.string.auth_failed));
                         }
 
                     }
@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "signInWithEmail:failure", e);
-                        loginFailure("Authentication failed.");
+                        loginFailure(getString(R.string.auth_failed));
 
                     }
                 });
@@ -75,14 +75,14 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         String password = getViewBinding().password.getText().toString();
 
         if (username.equals("")) {
-            showToast("Enter Username");
+            showToast(getString(R.string.enter_username));
             return;
         }
         if (password.equals("")) {
-            showToast("Enter Username");
+            showToast(getString(R.string.enter_password));
             return;
         }
-        progressDialog = ProgressDialog.show(this, "Logging in ...", "Creating user", true);
+        progressDialog = ProgressDialog.show(this, getString(R.string.logging_in), getString(R.string.create_user), true);
         firebaseAuth.createUserWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -91,7 +91,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                             loginSuccess();
                         } else {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            loginFailure("Authentication failed.");
+                            loginFailure(getString(R.string.auth_failed));
                         }
 
                     }
@@ -100,7 +100,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "signInWithEmail:failure", e);
-                        loginFailure("Authentication failed.");
+                        loginFailure(getString(R.string.auth_failed));
 
                     }
                 });

@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:text="Heading"
+        android:text="@string/heading"
         android:textSize="14sp"
         android:textStyle="bold" />
 

@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "974716997604-afh3tu4l1567b5qrb0bdoubhh9mrioh0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kautilya.application",
+            "certificate_hash": "b5ecbece332d4094e72c9a135baf3360b7afc0c4"
+          }
+        },
+        {
           "client_id": "974716997604-4atsk06k9n6eof7i81cqte68ie876do2.apps.googleusercontent.com",
           "client_type": 3
         }

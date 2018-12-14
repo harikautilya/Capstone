@@ -3,6 +3,7 @@ package com.example.kautilya.application.ui;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,12 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.kautilya.application.App;
-import com.example.kautilya.application.base.BaseActivity;
-import com.example.kautilya.application.objects.Place;
-import com.example.kautilya.application.adapters.PlaceAdapter;
-import com.example.kautilya.application.service.PlaceService;
 import com.example.kautilya.application.R;
+import com.example.kautilya.application.adapters.PlaceAdapter;
+import com.example.kautilya.application.base.BaseActivity;
 import com.example.kautilya.application.databinding.ActivityMainBinding;
+import com.example.kautilya.application.objects.Place;
+import com.example.kautilya.application.service.PlaceService;
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.Driver;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
@@ -33,26 +34,51 @@ import java.util.List;
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private static final int REMINDER_INTERVAL_SECONDS = 5;
+    private static final String SAVED_LAYOUT_MANAGER = "postion";
     List<Place> placeString;
 
     private PlaceAdapter adapter;
     private int SYNC_FLEXTIME_SECONDS = 10;
     private FirebaseJobDispatcher firebaseJobDispatcher;
+    private Parcelable layoutManagerSavedState;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         placeString = new ArrayList<>();
-        getViewBinding().data.setLayoutManager(new LinearLayoutManager(this));
+        getViewBinding().data.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public void onRestoreInstanceState(Parcelable state) {
+                if (state instanceof Bundle) {
+                    layoutManagerSavedState = ((Bundle) state).getParcelable(SAVED_LAYOUT_MANAGER);
+                }
+                super.onRestoreInstanceState(state);
+            }
+
+            @Override
+            public Parcelable onSaveInstanceState() {
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(SAVED_LAYOUT_MANAGER, getViewBinding().data.getLayoutManager().onSaveInstanceState());
+                return bundle;
+
+
+            }
+        });
         getViewBinding().data.setAdapter(adapter = new PlaceAdapter(MainActivity.this, placeString));
         Driver driver = new GooglePlayDriver(this);
         firebaseJobDispatcher = new FirebaseJobDispatcher(driver);
-
+        restoreLayoutManagerPosition();
         setupFirebaseListeners();
         updateUI();
     }
 
+    private void restoreLayoutManagerPosition() {
+        if (layoutManagerSavedState != null) {
+            getViewBinding().data.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,6 +100,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         }
         return true;
     }
+
 
     private void setupFirebaseListeners() {
         App.getmDbInstance().placeDao().getLivePlaceData().observe(this, new Observer<List<Place>>() {

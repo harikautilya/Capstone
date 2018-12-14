@@ -1,9 +1,20 @@
 <resources>
     <string name="app_name">Placity</string>
     <string name="cancel">Cancel</string>
-    <string name="book">Book</string>
     <string name="sold">Sold</string>
     <string name="log_out">Log Out</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="enter_username">Enter Username</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="logging_in">Logging in ...</string>
+    <string name="logging_in_message">Please wait while we login</string>
+    <string name="auth_failed">Authentication failed.</string>
+    <string name="create_user">Creating user</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="register">REGISTER</string>
+    <string name="book">Book</string>
+    <string name="heading">Heading</string>
 </resources>
