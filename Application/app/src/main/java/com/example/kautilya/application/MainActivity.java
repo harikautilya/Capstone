@@ -1,8 +1,8 @@
 package com.example.kautilya.application;
 
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,22 +11,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.kautilya.application.databinding.ActivityMainBinding;
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.Driver;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.Trigger;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
+    private static final int REMINDER_INTERVAL_SECONDS = 5;
     List<Place> placeString;
-    private ValueEventListener valueEventListener;
-    private DatabaseReference localreference;
+
     private PlaceAdapter adapter;
+    private int SYNC_FLEXTIME_SECONDS = 10;
+    private FirebaseJobDispatcher firebaseJobDispatcher;
 
 
     @Override
@@ -35,7 +40,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         placeString = new ArrayList<>();
         getViewBinding().data.setLayoutManager(new LinearLayoutManager(this));
         getViewBinding().data.setAdapter(adapter = new PlaceAdapter(MainActivity.this, placeString));
-        localreference = FireBaseUtils.getPlaceDetails();
+        Driver driver = new GooglePlayDriver(this);
+        firebaseJobDispatcher = new FirebaseJobDispatcher(driver);
+
         setupFirebaseListeners();
         updateUI();
     }
@@ -54,6 +61,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case R.id.log_out:
+                firebaseJobDispatcher.cancel(App.PLACE_UPDATE_SERVICE);
                 FirebaseAuth.getInstance().signOut();
                 updateUI();
                 break;
@@ -62,39 +70,23 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void setupFirebaseListeners() {
-        valueEventListener = new ValueEventListener() {
+        App.getmDbInstance().placeDao().getPlaceData().observe(this, new Observer<List<Place>>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                List<Place> places = new ArrayList<>();
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    Place place = child.getValue(Place.class);
-                    places.add(place);
-                }
-
+            public void onChanged(@Nullable List<Place> places) {
                 adapter.updateData(places);
-
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                databaseError.toException().printStackTrace();
-
-            }
-        };
+        });
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-        localreference.removeEventListener(valueEventListener);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        localreference.orderByValue().addValueEventListener(valueEventListener);
 
     }
 
@@ -108,11 +100,36 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser == null) {
+            killJobService();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
+        } else {
+            startJobService();
         }
+
+    }
+
+    private void startJobService() {
+
+        Job constraintReminderJob = firebaseJobDispatcher.newJobBuilder()
+                .setTag(App.PLACE_UPDATE_SERVICE)
+                .setConstraints(Constraint.ON_ANY_NETWORK)
+                .setLifetime(Lifetime.FOREVER)
+                .setRecurring(true)
+                .setTrigger(Trigger.executionWindow(
+                        REMINDER_INTERVAL_SECONDS,
+                        REMINDER_INTERVAL_SECONDS + SYNC_FLEXTIME_SECONDS
+                ))
+                .setService(PlaceService.class)
+                .setReplaceCurrent(true)
+                .build();
+
+        firebaseJobDispatcher.schedule(constraintReminderJob);
+    }
+
+    private void killJobService() {
 
     }
 

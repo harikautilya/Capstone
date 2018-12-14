@@ -1,12 +1,20 @@
 package com.example.kautilya.application;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.Nullable;
 
-public class Place {
 
+@Entity
+public class Place {
+    @ColumnInfo(name = "name")
     String name;
+    @PrimaryKey
     long id;
+    @ColumnInfo(name = "location")
     String location;
+    @ColumnInfo(name = "image_url")
     String image_url;
 
     public Place() {
