@@ -3,7 +3,7 @@ package com.example.kautilya.application.service;
 import android.support.annotation.NonNull;
 
 import com.example.kautilya.application.App;
-import com.example.kautilya.application.FireBaseUtils;
+import com.example.kautilya.application.Utils.FireBaseUtils;
 import com.example.kautilya.application.objects.Place;
 import com.firebase.jobdispatcher.JobService;
 import com.google.firebase.database.DataSnapshot;

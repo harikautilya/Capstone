@@ -4,4 +4,6 @@
     <string name="book">Book</string>
     <string name="sold">Sold</string>
     <string name="log_out">Log Out</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

@@ -17,7 +17,7 @@ public class App extends Application {
             synchronized (App.class) {
                 if (mDbInstance == null)
                     mDbInstance = Room.databaseBuilder(context,
-                            AppDatabase.class, "database-name").build();
+                            AppDatabase.class, "database-name").allowMainThreadQueries().build();
                 return mDbInstance;
             }
         return mDbInstance;

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.kautilya.application.FireBaseUtils;
+import com.example.kautilya.application.Utils.FireBaseUtils;
 import com.example.kautilya.application.R;
 import com.example.kautilya.application.databinding.ItemPlaceBinding;
 import com.example.kautilya.application.objects.Place;

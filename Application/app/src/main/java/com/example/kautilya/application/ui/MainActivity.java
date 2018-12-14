@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void setupFirebaseListeners() {
-        App.getmDbInstance().placeDao().getPlaceData().observe(this, new Observer<List<Place>>() {
+        App.getmDbInstance().placeDao().getLivePlaceData().observe(this, new Observer<List<Place>>() {
             @Override
             public void onChanged(@Nullable List<Place> places) {
                 adapter.updateData(places);

@@ -15,7 +15,11 @@ public interface PlaceDao {
 
 
     @Query("SELECT * FROM place")
-    LiveData<List<Place>> getPlaceData();
+    LiveData<List<Place>> getLivePlaceData();
+
+
+    @Query("SELECT * FROM place")
+    List<Place> getPlaceData();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] insertPlace(List<Place> places);
